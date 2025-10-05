@@ -1,32 +1,33 @@
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { v4 } from "uuid";
 
 function App() {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Estudar React",
-      description:
-        "Estudar React para criar uma aplicação de gerenciador de tarefas",
-      isCompleted: false,
-    },
-    {
-      id: 2,
-      title: "Estudar Node.js",
-      description:
-        "Estudar Node.js para criar uma aplicação de gerenciador de tarefas",
-      isCompleted: false,
-    },
-    {
-      id: 3,
-      title: "Estudar TypeScript",
-      description:
-        "Estudar TypeScript para criar uma aplicação de gerenciador de tarefas",
-      isCompleted: false,
-    },
-  ]);
+  const [tasks, setTasks] = useState(
+    JSON.parse(localStorage.getItem("tasks")) || []
+  );
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    console.log(tasks);
+  }, [tasks]);
+
+  // SE QUISER VOCE PODE USAR O FETCH TASKS PARA BUSCAR AS TAREFAS DA API
+
+  // useEffect(() => {
+  //   const fetchTasks = async () => {
+  //     const response = await fetch(
+  //       "https://jsonplaceholder.typicode.com/todos?_limit=6",
+  //       {
+  //         method: "GET",
+  //       }
+  //     );
+  //     const data = await response.json();
+  //     setTasks(data);
+  //   };
+  //   fetchTasks();
+  // }, []);
 
   function onTaskClick(taskId) {
     const newTasks = tasks.map((task) => {
